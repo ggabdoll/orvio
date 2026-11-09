@@ -28,7 +28,7 @@ PowerShell에서 실행합니다.
 
 ```powershell
 winget install --id Microsoft.DotNet.SDK.10 -e
-git clone https://github.com/<계정>/orvio.git
+git clone https://github.com/ggabdoll/orvio.git
 cd orvio
 dotnet build extension\Orvio\Orvio.csproj -c Release
 ```
