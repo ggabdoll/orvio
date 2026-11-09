@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- 확장의 순수 로직 파일을 그대로 끌어와 맥에서 검사 -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>7.3</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <RootNamespace>Orvio.Checks</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="../Orvio/Core/*.cs" Link="Linked/%(Filename)%(Extension)" />
+    <Compile Include="../Orvio/Native.cs" Link="Linked/Native.cs" />
+    <Compile Include="../Orvio/Logger.cs" Link="Linked/Logger.cs" />
+  </ItemGroup>
+
+</Project>

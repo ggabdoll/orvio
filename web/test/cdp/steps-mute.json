@@ -1,0 +1,51 @@
+[
+ {
+  "label": "0 (?mute=1)",
+  "eval": "window.V = () => fakeHost.got.filter(m => m.type === \"volume\"); window.W = () => fakeHost.got.filter(m => m.type === \"openWeb\").length; window.LG = s => fakeHost.got.filter(m => m.type === \"log\" && m.msg.startsWith(s)); window.L = () => [...document.querySelectorAll(\".ov.open\")].map(e => e.id).join() || \"-\"; 'PASS ready'"
+ },
+ {
+  "key": "Enter",
+  "gap": 400
+ },
+ {
+  "label": "1 launch 보냄 -> 실행 중",
+  "eval": "((L() === \"ovLaunch\" && launchMsg.textContent === \"Steam에서 실행 중…\") ? 'PASS ' : 'FAIL ') + JSON.stringify(({ layers: L(), msg: launchMsg.textContent }))"
+ },
+ {
+  "wait": 4000
+ },
+ {
+  "label": "2 4초: 아직 기다림",
+  "eval": "((launchMsg.textContent === \"Steam에서 실행 중…\") ? 'PASS ' : 'FAIL ') + JSON.stringify(({ msg: launchMsg.textContent }))"
+ },
+ {
+  "wait": 1400
+ },
+ {
+  "label": "3 5초 동안 답 없음 -> 실패 화면(SCR-11), warn 로그",
+  "eval": "((launchMsg.textContent === \"게임이 시작되지 않았어요\" && document.querySelector(\"#ovLaunch .focus\")?.dataset.act === \"retry\" && LG(\"launch 답이 없어요\").length === 1) ? 'PASS ' : 'FAIL ') + JSON.stringify(({ msg: launchMsg.textContent, logs: LG(\"launch\").map(m => m.msg) }))"
+ },
+ {
+  "key": "Enter",
+  "gap": 400
+ },
+ {
+  "label": "4 다시 시도 -> launch 두 번째, 다시 기다림",
+  "eval": "((fakeHost.got.filter(m => m.type === \"launch\").length === 2 && launchMsg.textContent === \"Steam에서 실행 중…\") ? 'PASS ' : 'FAIL ') + JSON.stringify(({ n: fakeHost.got.filter(m => m.type === \"launch\").length }))"
+ },
+ {
+  "wait": 5400
+ },
+ {
+  "label": "5 또 답 없음 -> 다시 실패 화면",
+  "eval": "((launchMsg.textContent === \"게임이 시작되지 않았어요\") ? 'PASS ' : 'FAIL ') + JSON.stringify(({ msg: launchMsg.textContent }))"
+ },
+ {
+  "key": "Escape",
+  "gap": 400
+ },
+ {
+  "label": "6 B -> 홈",
+  "eval": "((L() === \"-\") ? 'PASS ' : 'FAIL ') + JSON.stringify(({ layers: L() }))"
+ }
+]

@@ -1,0 +1,175 @@
+[
+ {
+  "label": "0 평소: 줄 없음",
+  "eval": "window.G = () => fakeHost.got.filter(m => [\"launch\", \"power\"].includes(m.type)).map(m => m.type + \":\" + (m.id || m.action)); window.L = () => [...document.querySelectorAll(\".ov.open\")].map(e => e.id).join() || \"-\"; window.T = () => toast.classList.contains(\"on\") ? toast.textContent : \"\"; window.I = () => ({ run: dRun.textContent, runVisible: !!dRun.offsetParent && dRun.getBoundingClientRect().bottom <= dT.getBoundingClientRect().top, runColor: getComputedStyle(dRun).color === getComputedStyle(dM).color, layers: L(), toast: T(), sent: G(), dT: dT.textContent, cat: document.querySelector(\".cl.on\").textContent }); (s => (s.run === '' ? 'PASS ' : 'FAIL ') + JSON.stringify(s))(I())"
+ },
+ {
+  "eval": "fakeHost.send({ type: \"gameState\", id: \"elden\", state: \"started\" }); fakeHost.send({ type: \"pause\" }); \"started+pause\""
+ },
+ {
+  "wait": 300
+ },
+ {
+  "eval": "fakeHost.send({ type: \"resume\", reason: \"shortcut\" }); \"resume shortcut\""
+ },
+ {
+  "wait": 400
+ },
+ {
+  "label": "1 게임 중 바로가기로 부름 -> 상세 위 '게임 실행 중 · 엘든 링' (메타 줄 색, 제목 위)",
+  "eval": "(s => ((s.run === \"게임 실행 중 · 엘든 링\" && s.runVisible && s.runColor && s.layers === \"-\") ? 'PASS ' : 'FAIL ') + JSON.stringify(s))(I())"
+ },
+ {
+  "shot": "running-home"
+ },
+ {
+  "key": "ArrowDown",
+  "gap": 400
+ },
+ {
+  "key": "Enter",
+  "gap": 600
+ },
+ {
+  "label": "2 다른 게임 플레이 -> 확장 busy -> 실행 중 창 닫힘 + 알림, 줄은 그대로",
+  "eval": "(s => ((s.layers === \"-\" && s.toast === \"이미 실행 중인 게임이 있어요\" && s.sent.filter(x => x === \"launch:mhw\").length === 1 && s.run === \"게임 실행 중 · 엘든 링\" && document.querySelector(\".tv .focus\")?.dataset.g === \"dial\") ? 'PASS ' : 'FAIL ') + JSON.stringify(s))(I())"
+ },
+ {
+  "key": "m",
+  "gap": 500
+ },
+ {
+  "key": "ArrowDown",
+  "n": 3,
+  "gap": 200
+ },
+ {
+  "key": "Enter",
+  "gap": 300
+ },
+ {
+  "label": "3 게임 중 화면 끄기 -> power 안 보냄, 알림",
+  "eval": "(s => ((s.toast === \"게임을 끈 뒤에 할 수 있어요\" && !s.sent.some(x => x.startsWith(\"power\"))) ? 'PASS ' : 'FAIL ') + JSON.stringify(s))(I())"
+ },
+ {
+  "key": "ArrowDown",
+  "gap": 200
+ },
+ {
+  "key": "Enter",
+  "gap": 300
+ },
+ {
+  "label": "4 게임 중 절전 -> power 안 보냄, 알림",
+  "eval": "(s => ((s.toast === \"게임을 끈 뒤에 할 수 있어요\" && !s.sent.some(x => x.startsWith(\"power\"))) ? 'PASS ' : 'FAIL ') + JSON.stringify(s))(I())"
+ },
+ {
+  "key": "ArrowDown",
+  "gap": 200
+ },
+ {
+  "key": "Enter",
+  "gap": 300
+ },
+ {
+  "label": "5 게임 중 다시 시작 -> 길게 누르기 안내가 아니라 바로 알림",
+  "eval": "(s => ((s.toast === \"게임을 끈 뒤에 할 수 있어요\" && !s.sent.some(x => x.startsWith(\"power\"))) ? 'PASS ' : 'FAIL ') + JSON.stringify(s))(I())"
+ },
+ {
+  "key": "ArrowDown",
+  "gap": 200
+ },
+ {
+  "key": "Enter",
+  "gap": 300
+ },
+ {
+  "label": "6 게임 중 시스템 종료 -> 알림",
+  "eval": "(s => ((s.toast === \"게임을 끈 뒤에 할 수 있어요\" && !s.sent.some(x => x.startsWith(\"power\"))) ? 'PASS ' : 'FAIL ') + JSON.stringify(s))(I())"
+ },
+ {
+  "key": "ArrowDown",
+  "gap": 200
+ },
+ {
+  "key": "Enter",
+  "gap": 300
+ },
+ {
+  "label": "7 게임 중 바탕화면으로 -> power desktop 보냄",
+  "eval": "(s => ((s.toast === \"윈도우 바탕화면으로 나가는 중…\" && s.sent.includes(\"power:desktop\")) ? 'PASS ' : 'FAIL ') + JSON.stringify(s))(I())"
+ },
+ {
+  "key": "Escape",
+  "gap": 400
+ },
+ {
+  "key": "e",
+  "n": 5,
+  "gap": 450
+ },
+ {
+  "key": "ArrowDown",
+  "n": 3,
+  "gap": 300
+ },
+ {
+  "key": "Enter",
+  "gap": 300
+ },
+ {
+  "label": "8 원판 시스템 분류 '다시 시작' CD 도 게임 중에는 알림",
+  "eval": "(s => ((s.cat === \"시스템\" && s.dT === \"다시 시작\" && s.toast === \"게임을 끈 뒤에 할 수 있어요\" && s.sent.filter(x => x.startsWith(\"power\")).length === 1) ? 'PASS ' : 'FAIL ') + JSON.stringify(s))(I())"
+ },
+ {
+  "eval": "fakeHost.send({ type: \"gameState\", id: \"elden\", state: \"stopped\", elapsedSec: 600 }); \"stopped\""
+ },
+ {
+  "wait": 400
+ },
+ {
+  "label": "9 stopped -> 줄 지움, 그 게임 3시",
+  "eval": "(s => ((s.run === \"\" && s.dT === \"엘든 링\" && s.cat === \"이어서 하기\") ? 'PASS ' : 'FAIL ') + JSON.stringify(s))(I())"
+ },
+ {
+  "key": "m",
+  "gap": 500
+ },
+ {
+  "key": "ArrowDown",
+  "n": 3,
+  "gap": 200
+ },
+ {
+  "key": "Enter",
+  "gap": 300
+ },
+ {
+  "label": "10 게임이 끝나면 화면 끄기 다시 됨",
+  "eval": "(s => ((s.sent.includes(\"power:screenOff\") && s.toast === \"화면을 끄는 중…\") ? 'PASS ' : 'FAIL ') + JSON.stringify(s))(I())"
+ },
+ {
+  "key": "Escape",
+  "gap": 400
+ },
+ {
+  "eval": "fakeHost.send({ type: \"gameState\", id: \"mhw\", state: \"launching\" }); \"launching\""
+ },
+ {
+  "wait": 300
+ },
+ {
+  "label": "11 launching 도 '게임 실행 중'",
+  "eval": "(s => ((s.run === \"게임 실행 중 · 몬스터 헌터 와일즈\") ? 'PASS ' : 'FAIL ') + JSON.stringify(s))(I())"
+ },
+ {
+  "eval": "fakeHost.send({ type: \"gameState\", id: \"mhw\", state: \"failed\", reason: \"timeout\" }); \"failed\""
+ },
+ {
+  "wait": 300
+ },
+ {
+  "label": "12 failed -> 줄 지움",
+  "eval": "(s => ((s.run === \"\") ? 'PASS ' : 'FAIL ') + JSON.stringify(s))(I())"
+ }
+]

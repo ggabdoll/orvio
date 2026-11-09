@@ -1,0 +1,219 @@
+[
+ {
+  "label": "0 home",
+  "eval": "window.S = () => { const t = document.getElementById(\"tv\"); return { layers: [...document.querySelectorAll(\".ov.open\")].map(e => e.id), focus: document.querySelector(\".tv .focus\")?.dataset.g || null, cat: document.querySelector(\".cl.on\")?.textContent, dT: dT.textContent, cnt: cnt.textContent, dR: dR.textContent, theme: t.dataset.theme, paused: t.classList.contains(\"paused\"), guide: guide.innerText.replace(/\\s+/g, \" \"), toast: toast.classList.contains(\"on\") ? toast.textContent : \"\", got: fakeHost.got.map(m => m.type + (m.id ? \":\" + m.id : m.key ? \":\" + m.key + \"=\" + m.value : m.action ? \":\" + m.action : m.query ? \":q=\" + m.query : m.value != null ? \":\" + m.value : \"\")) }; }; window.C = (cond, s = S()) => (cond(s) ? \"PASS \" : \"FAIL \") + JSON.stringify({ ...s, got: s.got.slice(-5) }); window.R = () => [...resList.querySelectorAll(\".ri .rt b\")].map(b => b.textContent).join(\"|\"); C(s => s.dT === \"엘든 링\" && s.cnt === \"1 / 14\" && s.theme === \"dark\" && s.focus === \"dial\" && s.got[0] === \"ready\")"
+ },
+ {
+  "key": "ArrowDown",
+  "n": 2
+ },
+ {
+  "label": "1 dial down x2",
+  "eval": "C(s => s.dT === \"리그 오브 레전드\" && s.cnt === \"3 / 14\")"
+ },
+ {
+  "key": "ArrowUp"
+ },
+ {
+  "label": "2 dial up",
+  "eval": "C(s => s.dT === \"몬스터 헌터 와일즈\" && s.cnt === \"2 / 14\")"
+ },
+ {
+  "key": "ArrowDown"
+ },
+ {
+  "key": "e",
+  "gap": 500
+ },
+ {
+  "label": "3 E -> 컨트롤러로",
+  "eval": "C(s => s.cat === \"컨트롤러로\" && s.cnt === \"1 / 10\" && s.dT === \"엘든 링\")"
+ },
+ {
+  "key": "e",
+  "gap": 500
+ },
+ {
+  "label": "4 E -> 키보드·마우스",
+  "eval": "C(s => s.cat === \"키보드·마우스\" && s.cnt === \"1 / 6\" && s.dT === \"리그 오브 레전드\")"
+ },
+ {
+  "key": "q",
+  "n": 2,
+  "gap": 500
+ },
+ {
+  "label": "5 Q x2 -> 이어서 하기, 보던 칸 기억(FR-26)",
+  "eval": "C(s => s.cat === \"이어서 하기\" && s.cnt === \"3 / 14\" && s.dT === \"리그 오브 레전드\")"
+ },
+ {
+  "key": "Enter",
+  "gap": 600
+ },
+ {
+  "label": "6 Enter on kbm game -> 키마 확인",
+  "eval": "C(s => s.layers.join() === \"ovKbm\" && kbmGame.innerText.includes(\"Riot · MOBA · 1,830시간 플레이\") && s.focus === \"dlg\" && !s.got.includes(\"launch:lol\"))"
+ },
+ {
+  "shot": "main-kbm"
+ },
+ {
+  "key": "Enter",
+  "gap": 600
+ },
+ {
+  "label": "7 실행 -> 실행 중(SCR-03)",
+  "eval": "C(s => s.layers.join() === \"ovLaunch\" && launchMsg.textContent === \"Riot에서 실행 중…\" && launchActs.innerText.includes(\"홈으로 돌아가기\") && s.guide.includes(\"홈으로 돌아가기\") && s.got.includes(\"launch:lol\"))"
+ },
+ {
+  "shot": "main-launch"
+ },
+ {
+  "key": "Escape",
+  "gap": 400
+ },
+ {
+  "label": "8 Esc -> 홈",
+  "eval": "C(s => !s.layers.length && s.focus === \"dial\")"
+ },
+ {
+  "wait": 5500
+ },
+ {
+  "label": "9 stopped -> 켠 분류, 그 게임 3시, 기록 줄 새 값, resume",
+  "eval": "C(s => !s.layers.length && s.cat === \"이어서 하기\" && s.dT === \"리그 오브 레전드\" && s.cnt === \"1 / 14\" && s.dR === \"1,830시간 했어요 · 마지막 플레이 오늘\" && !s.paused && s.focus === \"dial\")"
+ },
+ {
+  "shot": "main-back-from-game"
+ },
+ {
+  "key": "/",
+  "gap": 500
+ },
+ {
+  "type": "ㅇㄹ"
+ },
+ {
+  "wait": 300
+ },
+ {
+  "label": "10 / 검색 ㅇㄹ",
+  "eval": "C(s => s.layers.join() === \"ovSearch\" && resH.textContent === \"게임 2개\" && R() === \"엘든 링|리그 오브 레전드|웹에서 “ㅇㄹ” 찾기\")"
+ },
+ {
+  "shot": "main-search-ㅇㄹ"
+ },
+ {
+  "key": "Escape",
+  "gap": 500
+ },
+ {
+  "key": "/",
+  "gap": 500
+ },
+ {
+  "type": "lol"
+ },
+ {
+  "wait": 300
+ },
+ {
+  "label": "11 / 검색 lol",
+  "eval": "C(s => resH.textContent === \"게임 2개\" && R() === \"리그 오브 레전드|할로우 나이트: 실크송|웹에서 “lol” 찾기\")"
+ },
+ {
+  "shot": "main-search-lol"
+ },
+ {
+  "key": "Escape",
+  "gap": 500
+ },
+ {
+  "key": "m",
+  "gap": 600
+ },
+ {
+  "label": "12 M -> 빠른 메뉴",
+  "eval": "C(s => s.layers.join() === \"ovMenu\" && volV.textContent === \"40\" && s.focus === \"menu\")"
+ },
+ {
+  "key": "ArrowRight"
+ },
+ {
+  "label": "13 볼륨 → (volume 보냄)",
+  "eval": "C(s => volV.textContent === \"45\" && s.got.includes(\"volume:45\"))"
+ },
+ {
+  "key": "ArrowDown"
+ },
+ {
+  "key": "ArrowLeft"
+ },
+ {
+  "key": "ArrowLeft",
+  "gap": 700
+ },
+ {
+  "label": "14 테마 ← ← -> 라이트 (setSetting 보냄)",
+  "eval": "C(s => s.theme === \"light\" && s.got.includes(\"setSetting:theme=dark\") && s.got.includes(\"setSetting:theme=light\") && document.querySelector(\"#seg .on\").dataset.t === \"light\")"
+ },
+ {
+  "shot": "main-menu-light"
+ },
+ {
+  "key": "ArrowDown"
+ },
+ {
+  "key": "ArrowRight"
+ },
+ {
+  "label": "15 대기 회전 켬 (setSetting idle)",
+  "eval": "C(s => s.got.includes(\"setSetting:idle=true\") && document.querySelector(\"#idlSeg .on\").dataset.v === \"on\")"
+ },
+ {
+  "key": "ArrowLeft"
+ },
+ {
+  "key": "ArrowDown",
+  "n": 3
+ },
+ {
+  "key": "Enter",
+  "gap": 400
+ },
+ {
+  "label": "16 다시 시작 짧게 Enter -> 안내 알림만",
+  "eval": "C(s => s.toast === \"Enter를 길게 누르면 다시 시작해요\" && !s.got.some(g => g.startsWith(\"power\")))"
+ },
+ {
+  "key": "ArrowDown"
+ },
+ {
+  "key": "Enter",
+  "gap": 400
+ },
+ {
+  "label": "17 시스템 종료 짧게 Enter -> 안내 알림만",
+  "eval": "C(s => s.toast === \"Enter를 길게 누르면 종료해요\" && !s.got.some(g => g.startsWith(\"power\")))"
+ },
+ {
+  "key": "ArrowUp",
+  "n": 3
+ },
+ {
+  "key": "Enter",
+  "gap": 400
+ },
+ {
+  "label": "18 화면 끄기 Enter 한 번 -> power screenOff",
+  "eval": "C(s => s.toast === \"화면을 끄는 중…\" && s.got.includes(\"power:screenOff\"))"
+ },
+ {
+  "key": "Escape",
+  "gap": 500
+ },
+ {
+  "label": "19 Esc -> 메뉴 닫힘, 원판 3시",
+  "eval": "C(s => !s.layers.length && s.focus === \"dial\")"
+ }
+]

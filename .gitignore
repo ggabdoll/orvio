@@ -1,0 +1,34 @@
+# 빌드 결과
+extension/**/bin/
+extension/**/obj/
+dist/
+*.pext
+# 게임 표지 등 다른 회사의 저작물이 들어 있어 공개 저장소에 올리지 않음
+design/
+web/test/covers.js
+web/test/shots/
+web/test/cdp/shots/
+web/test/cdp/out-*.json
+# 다른 사이트 글을 길게 옮긴 조사 자료, 다른 사이트의 디자인을 정리한 문서
+docs/dossier-windows.md
+docs/DESIGN-y2k-chrome.md
+# 작업용 문서: 개인 메모와 위 자료 참조가 들어 있음
+DESIGN.md
+docs/DESIGN-H-final.md
+docs/SPEC.md
+brand/orvio-logo-original.png
+# 위에서 뺀 파일이 있어야 돌아가는 도구
+tools/build-compare*.mjs
+tools/measure-glyph.mjs
+tools/shoot.mjs
+tools/sheet.sh
+tools/steps.json
+web/test/shoot.mjs
+web/test/cdp/font-parity.mjs
+# 로고를 만들 때 쓴 작업 파일
+brand/tools/
+brand/_*.png
+# 맥 / 편집기
+.DS_Store
+*.user
+.vs/

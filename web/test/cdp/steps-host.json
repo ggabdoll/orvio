@@ -1,0 +1,88 @@
+[
+ {
+  "label": "0",
+  "eval": "window.S = () => { const t = document.getElementById(\"tv\"); return { layers: [...document.querySelectorAll(\".ov.open\")].map(e => e.id), focus: document.querySelector(\".tv .focus\")?.dataset.g || null, cat: document.querySelector(\".cl.on\")?.textContent, dT: dT.textContent, cnt: cnt.textContent, dR: dR.textContent, theme: t.dataset.theme, paused: t.classList.contains(\"paused\"), guide: guide.innerText.replace(/\\s+/g, \" \"), toast: toast.classList.contains(\"on\") ? toast.textContent : \"\", got: fakeHost.got.map(m => m.type + (m.id ? \":\" + m.id : m.key ? \":\" + m.key + \"=\" + m.value : m.action ? \":\" + m.action : m.query ? \":q=\" + m.query : m.value != null ? \":\" + m.value : \"\")) }; }; window.C = (cond, s = S()) => (cond(s) ? \"PASS \" : \"FAIL \") + JSON.stringify({ ...s, got: s.got.slice(-5) }); window.R = () => [...resList.querySelectorAll(\".ri .rt b\")].map(b => b.textContent).join(\"|\"); C(s => s.dT === \"엘든 링\")"
+ },
+ {
+  "eval": "fakeHost.send({ type: \"status\", network: { kind: \"wired\" }, pads: [{ index: 0, name: \"컨트롤러 1\", battery: { kind: \"level\", value: 3 } }], kbm: { keyboard: false, mouse: true }, volume: 70 }); \"sent\""
+ },
+ {
+  "wait": 200
+ },
+ {
+  "label": "1 status: 유선=아이콘 숨김, 배터리 단계=낱말, 패드 1대, 키보드 없음=점 없음, 볼륨 70",
+  "eval": "C(s => !bar.innerHTML.includes(\"와이파이\") && bar.innerText.includes(\"높음\") && !bar.innerText.includes(\"%\") && bar.querySelectorAll(\"[data-tip^=\\\"컨트롤러\\\"]\").length === 1 && !bar.querySelector(\".okdot\") && bar.querySelector(\"[data-tip^=\\\"키보드\\\"]\").dataset.tip === \"키보드·마우스 마우스만 연결됨\" && volV.textContent === \"70\" && qmDev.querySelector(\".bbar i\").style.width === \"100%\" && kbmConn.innerText.includes(\"연결 안 됨\"))"
+ },
+ {
+  "eval": "fakeHost.send({ type: \"status\", network: { kind: \"none\" }, pads: [], kbm: { keyboard: true, mouse: true }, volume: 70 }); \"sent\""
+ },
+ {
+  "wait": 200
+ },
+ {
+  "label": "2 status: 인터넷 없음 말풍선, 패드 없음은 빠짐",
+  "eval": "C(s => bar.querySelector(\".st\").dataset.tip === \"인터넷 연결 안 됨\" && !bar.querySelector(\"[data-tip^=\\\"컨트롤러\\\"]\") && !!bar.querySelector(\".okdot\"))"
+ },
+ {
+  "key": "m",
+  "gap": 500
+ },
+ {
+  "eval": "fakeHost.send({ type: \"pause\" }); \"sent\""
+ },
+ {
+  "wait": 200
+ },
+ {
+  "label": "3 pause -> 멈춤",
+  "eval": "C(s => s.paused)"
+ },
+ {
+  "eval": "fakeHost.send({ type: \"resume\", reason: \"menuHold\" }); \"sent\""
+ },
+ {
+  "wait": 300
+ },
+ {
+  "label": "4 resume -> 창 닫고 원판 3시, 다시 돎",
+  "eval": "C(s => !s.paused && !s.layers.length && s.focus === \"dial\" && s.dT === \"엘든 링\")"
+ },
+ {
+  "eval": "fakeHost.send({ type: \"libraryDelta\", upserts: [], removes: [\"elden\"] }); \"sent\""
+ },
+ {
+  "wait": 300
+ },
+ {
+  "label": "5 libraryDelta 지움: 보던 칸 그대로",
+  "eval": "C(s => s.dT === \"몬스터 헌터 와일즈\" && s.cnt === \"1 / 13\" && s.focus === \"dial\")"
+ },
+ {
+  "eval": "fakeHost.send({ type: \"libraryDelta\", upserts: [{ id: \"newbie\", title: \"새로 깐 게임\", source: \"Epic\", added: \"2026-11-04T20:00:00\", lastPlayed: null, playtimeSec: 0 }], removes: [] }); \"sent\""
+ },
+ {
+  "wait": 300
+ },
+ {
+  "label": "6 새 게임: 추가한 날로 앞쪽, 카드 둘째 줄 '새 게임', 3시는 그대로",
+  "eval": "C(s => s.dT === \"몬스터 헌터 와일즈\" && s.cnt === \"2 / 14\" && [...document.querySelectorAll(\".spoke.nb .mt\")].some(e => e.textContent.startsWith(\"새 게임\")))"
+ },
+ {
+  "key": "ArrowUp",
+  "gap": 500
+ },
+ {
+  "label": "7 새 게임 상세: 아직 안 해 봤어요, 메타 줄 빈 칸 뺌, 입력 모르면 둘 다",
+  "eval": "C(s => s.dT === \"새로 깐 게임\" && s.dR === \"아직 안 해 봤어요\" && dM.textContent === \"혼자\" && dC.textContent.includes(\"컨트롤러 · \") )"
+ },
+ {
+  "eval": "fakeHost.send({ type: \"toast\", text: \"이미 실행 중인 게임이 있어요\" }); fakeHost.send({ type: \"bogus\" }); \"sent\""
+ },
+ {
+  "wait": 300
+ },
+ {
+  "label": "8 toast 메시지, 모르는 type 은 log 만",
+  "eval": "C(s => s.toast === \"이미 실행 중인 게임이 있어요\" && fakeHost.got.some(m => m.type === \"log\" && m.level === \"warn\" && m.msg.includes(\"bogus\")))"
+ }
+]

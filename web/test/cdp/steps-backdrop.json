@@ -1,0 +1,82 @@
+[
+ {
+  "label": "0 처음: 사진 한 장, 다크 투명도 .616",
+  "eval": "(() => { window.BG = () => [...document.querySelectorAll('.bgp')].map(p => p.classList.contains('on') ? p.style.backgroundImage.slice(0,60) : '-').join('|'); window.BL = []; let last = BG(); new MutationObserver(() => { const b = BG(); if (b !== last) { last = b; BL.push([performance.now(), b]); } }).observe(document.getElementById('tv'), { subtree: true, attributes: true, attributeFilter: ['class', 'style'] }); const on = document.querySelector('.bgp.on'); window.IMG0 = on && on.style.backgroundImage; return ((on && document.querySelectorAll('.bgp.on').length === 1 && IMG0.startsWith('url(\"data:image') && Math.abs(getComputedStyle(on).opacity - .616) < .01) ? 'PASS ' : 'FAIL ') + dT.textContent + ' op=' + (on && getComputedStyle(on).opacity); })()"
+ },
+ {
+  "key": "ArrowDown",
+  "gap": 120
+ },
+ {
+  "label": "1 넘긴 직후(260ms 전): 아직 그대로",
+  "eval": "((document.querySelector('.bgp.on')?.style.backgroundImage === IMG0) ? 'PASS ' : 'FAIL ') + dT.textContent"
+ },
+ {
+  "wait": 900
+ },
+ {
+  "label": "2 260ms 뒤 새 표지로, 한 장만 켜짐",
+  "eval": "(() => { const on = [...document.querySelectorAll('.bgp.on')]; window.IMG1 = on[0] && on[0].style.backgroundImage; return ((on.length === 1 && IMG1 && IMG1 !== IMG0) ? 'PASS ' : 'FAIL ') + dT.textContent; })()"
+ },
+ {
+  "wait": 800
+ },
+ {
+  "label": "3 누르기 시작",
+  "eval": "(() => { window.H0 = performance.now(); BL.length = 0; return 'mark ' + dT.textContent; })()"
+ },
+ {
+  "hold": "ArrowDown",
+  "ms": 1600
+ },
+ {
+  "label": "4 누르는 동안 바뀌지 않음",
+  "eval": "(() => { window.H1 = performance.now(); const n = BL.filter(([t]) => t > H0 && t < H1).length; return (n === 0 ? 'PASS ' : 'FAIL ') + '바뀐 수=' + n + ' dT=' + dT.textContent; })()"
+ },
+ {
+  "wait": 1000
+ },
+ {
+  "label": "5 뗀 뒤 한 번 바뀜",
+  "eval": "(() => { const after = BL.filter(([t]) => t >= H1); const on = document.querySelector('.bgp.on'); return ((after.length === 1 && document.querySelectorAll('.bgp.on').length === 1 && on.style.backgroundImage !== IMG1) ? 'PASS ' : 'FAIL ') + 'after=' + after.length + ' dT=' + dT.textContent; })()"
+ },
+ {
+  "key": "e",
+  "n": 8,
+  "gap": 300
+ },
+ {
+  "wait": 1000
+ },
+ {
+  "label": "6 시스템 분류: 사진 없음(회색)",
+  "eval": "((document.querySelectorAll('.bgp.on').length === 0) ? 'PASS ' : 'FAIL ') + dT.textContent + ' / ' + BG()"
+ },
+ {
+  "key": "q",
+  "n": 8,
+  "gap": 300
+ },
+ {
+  "wait": 1000
+ },
+ {
+  "label": "7 다시 게임: 사진 켜짐",
+  "eval": "((document.querySelectorAll('.bgp.on').length === 1) ? 'PASS ' : 'FAIL ') + dT.textContent"
+ },
+ {
+  "key": "m",
+  "gap": 800
+ },
+ {
+  "label": "8 빠른 메뉴 열림: 배경 그대로(scrim 뒤로 비침)",
+  "eval": "((document.querySelectorAll('.bgp.on').length === 1) ? 'PASS ' : 'FAIL ') + ([...document.querySelectorAll('.ov.open')].map(e=>e.id).join()||'-')"
+ },
+ {
+  "key": "Escape",
+  "gap": 500
+ },
+ {
+  "shot": "backdrop-dark-home"
+ }
+]

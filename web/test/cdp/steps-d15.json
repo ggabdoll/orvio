@@ -1,0 +1,55 @@
+[
+ {
+  "label": "0",
+  "eval": "window.T = () => JSON.stringify({ theme: tv.dataset.theme, clock: document.querySelector(\".bar .clock\").textContent, cat: document.querySelector(\".cl.on\")?.textContent, dT: dT.textContent, cnt: cnt.textContent, dR: dR.textContent, layers: [...document.querySelectorAll(\".ov.open\")].map(e => e.id), focus: document.querySelector(\".tv .focus\")?.dataset.g || null }); 'PASS ' + T()"
+ },
+ {
+  "key": "e",
+  "n": 2,
+  "gap": 500
+ },
+ {
+  "key": "ArrowDown",
+  "gap": 400
+ },
+ {
+  "label": "1 키보드·마우스 분류 2번째 칸(발로란트)",
+  "eval": "(dT.textContent === '발로란트' && cnt.textContent === '2 / 6' ? 'PASS ' : 'FAIL ') + T()"
+ },
+ {
+  "key": "Enter",
+  "gap": 500
+ },
+ {
+  "key": "Enter",
+  "gap": 500
+ },
+ {
+  "key": "Escape",
+  "gap": 400
+ },
+ {
+  "key": "q",
+  "n": 2,
+  "gap": 500
+ },
+ {
+  "key": "ArrowDown",
+  "n": 4,
+  "gap": 300
+ },
+ {
+  "label": "2 게임이 도는 동안 다른 분류로 옮겨 둠",
+  "eval": "(document.querySelector('.cl.on').textContent === '이어서 하기' ? 'PASS ' : 'FAIL ') + T()"
+ },
+ {
+  "wait": 5200
+ },
+ {
+  "label": "3 stopped -> 켠 분류(키보드·마우스)로, 발로란트 3시, 기록 줄 '오늘'",
+  "eval": "(document.querySelector('.cl.on').textContent === '키보드·마우스' && dT.textContent === '발로란트' && cnt.textContent === '1 / 6' && dR.textContent === '340시간 했어요 · 마지막 플레이 오늘' && document.querySelector('.tv .focus')?.dataset.g === 'dial' ? 'PASS ' : 'FAIL ') + T()"
+ },
+ {
+  "shot": "d15-back"
+ }
+]

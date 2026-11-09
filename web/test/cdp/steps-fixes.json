@@ -1,0 +1,200 @@
+[
+ {
+  "label": "0",
+  "eval": "window.G = () => fakeHost.got.map(m => m.type + (m.id ? \":\" + m.id : m.value != null ? \":\" + m.value : \"\")); window.L = () => [...document.querySelectorAll(\".ov.open\")].map(e => e.id).join() || \"-\"; window.F = () => document.querySelector(\".tv .focus\")?.dataset.g || null; 'PASS ready'"
+ },
+ {
+  "key": "Enter",
+  "gap": 300
+ },
+ {
+  "key": "Escape",
+  "gap": 300
+ },
+ {
+  "key": "Enter",
+  "gap": 300
+ },
+ {
+  "label": "3 켜는 중에 같은 게임을 다시 고르면 화면만, launch 는 한 번",
+  "eval": "((L() === \"ovLaunch\" && G().filter(g => g === \"launch:elden\").length === 1) ? 'PASS ' : 'FAIL ') + JSON.stringify(({ layers: L(), focus: F(), got: G().slice(-6), toast: toast.classList.contains(\"on\") ? toast.textContent : \"\" }))"
+ },
+ {
+  "key": "Escape",
+  "gap": 300
+ },
+ {
+  "wait": 5500
+ },
+ {
+  "key": "e",
+  "n": 4,
+  "gap": 450
+ },
+ {
+  "key": "Enter",
+  "gap": 500
+ },
+ {
+  "label": "5a 웹 여는 중",
+  "eval": "((L() === \"ovWeb\") ? 'PASS ' : 'FAIL ') + JSON.stringify(({ layers: L(), focus: F(), got: G().slice(-6), toast: toast.classList.contains(\"on\") ? toast.textContent : \"\" }))"
+ },
+ {
+  "eval": "fakeHost.send({ type: \"toast\", text: \"브라우저를 열지 못했어요\" }); \"sent\""
+ },
+ {
+  "wait": 300
+ },
+ {
+  "label": "5b 확장 알림이 오면 여는 중 화면을 걷음",
+  "eval": "((L() === \"-\" && toast.textContent === \"브라우저를 열지 못했어요\" && F() === \"dial\") ? 'PASS ' : 'FAIL ') + JSON.stringify(({ layers: L(), focus: F(), got: G().slice(-6), toast: toast.classList.contains(\"on\") ? toast.textContent : \"\" }))"
+ },
+ {
+  "key": "q",
+  "n": 4,
+  "gap": 450
+ },
+ {
+  "eval": "fakeHost.send({ type: \"gameState\", state: \"stopped\" }); fakeHost.send({ type: \"gameState\", id: \"elden\", state: 3 }); \"sent\""
+ },
+ {
+  "wait": 300
+ },
+ {
+  "label": "7a id 없음·state 이상 -> 무시, warn 로그",
+  "eval": "((fakeHost.got.filter(m => m.type === \"log\" && m.msg.startsWith(\"gameState 값이 이상해요\")).length === 2) ? 'PASS ' : 'FAIL ') + JSON.stringify(({ layers: L(), focus: F(), got: G().slice(-6), toast: toast.classList.contains(\"on\") ? toast.textContent : \"\" }))"
+ },
+ {
+  "key": "ArrowDown",
+  "n": 3,
+  "gap": 300
+ },
+ {
+  "eval": "window.dT0 = dT.textContent; fakeHost.send({ type: \"gameState\", id: \"mhw\", state: \"stopped\", elapsedSec: 60 }); \"sent\""
+ },
+ {
+  "wait": 300
+ },
+ {
+  "label": "7b started 없이 온 stopped 도 받음 -> 그 게임 3시",
+  "eval": "((dT.textContent === \"몬스터 헌터 와일즈\") ? 'PASS ' : 'FAIL ') + JSON.stringify(({ layers: L(), focus: F(), got: G().slice(-6), toast: toast.classList.contains(\"on\") ? toast.textContent : \"\" }))"
+ },
+ {
+  "key": "ArrowDown",
+  "n": 2,
+  "gap": 300
+ },
+ {
+  "eval": "window.dT1 = dT.textContent; fakeHost.send({ type: \"gameState\", id: \"mhw\", state: \"stopped\", elapsedSec: 60 }); \"sent\""
+ },
+ {
+  "wait": 300
+ },
+ {
+  "label": "7c 같은 stopped 두 번째는 무시 (원판이 안 움직임)",
+  "eval": "((dT.textContent === dT1 && dT1 !== \"몬스터 헌터 와일즈\") ? 'PASS ' : 'FAIL ') + JSON.stringify(({ layers: L(), focus: F(), got: G().slice(-6), toast: toast.classList.contains(\"on\") ? toast.textContent : \"\" }))"
+ },
+ {
+  "eval": "window.dT2 = dT.textContent; fakeHost.send({ type: \"pad\", pads: [{ index: 0, buttons: Array.from({ length: 17 }, (_, i) => i === 13), axes: [0, 0, 0, 0] }] }); \"sent\""
+ },
+ {
+  "wait": 300
+ },
+ {
+  "eval": "fakeHost.send({ type: \"pad\", pads: [{ index: 0, buttons: Array(17).fill(false), axes: [0, 0, 0, 0] }] }); \"sent\""
+ },
+ {
+  "wait": 300
+ },
+ {
+  "label": "8a gamepadApi 모드에서 pad 메시지는 무시",
+  "eval": "((dT.textContent === dT2) ? 'PASS ' : 'FAIL ') + JSON.stringify(({ layers: L(), focus: F(), got: G().slice(-6), toast: toast.classList.contains(\"on\") ? toast.textContent : \"\" }))"
+ },
+ {
+  "eval": "fakeHost.send({ type: \"status\", network: \"wifi\", pads: [null, 3, { battery: { kind: \"level\", value: 2 } }], kbm: null, volume: 55 }); \"sent\""
+ },
+ {
+  "wait": 300
+ },
+ {
+  "label": "8b 이상한 status: 객체만 남기고 이름 없으면 '컨트롤러'",
+  "eval": "((bar.querySelectorAll(\"[data-tip^=\\\"컨트롤러\\\"]\").length === 1 && bar.querySelector(\"[data-tip^=\\\"컨트롤러\\\"]\").dataset.tip === \"컨트롤러 · 배터리 보통\" && !bar.innerHTML.includes(\"와이파이\") && !bar.querySelector(\".okdot\")) ? 'PASS ' : 'FAIL ') + JSON.stringify(({ bar: bar.innerText.replace(/\\s+/g, \" \") }))"
+ },
+ {
+  "eval": "for (let i = 0; i < 5; i++) fakeHost.send({ type: \"bogus2\" }); \"sent\""
+ },
+ {
+  "wait": 300
+ },
+ {
+  "label": "13a 같은 모르는 type 5번 -> 로그 1번",
+  "eval": "((fakeHost.got.filter(m => m.type === \"log\" && m.msg === \"모르는 메시지: bogus2\").length === 1) ? 'PASS ' : 'FAIL ') + JSON.stringify(({ layers: L(), focus: F(), got: G().slice(-6), toast: toast.classList.contains(\"on\") ? toast.textContent : \"\" }))"
+ },
+ {
+  "key": "m",
+  "gap": 400
+ },
+ {
+  "eval": "window.v0 = fakeHost.got.filter(m => m.type === \"volume\").length; \"n\""
+ },
+ {
+  "key": "ArrowRight",
+  "n": 6,
+  "gap": 30
+ },
+ {
+  "wait": 400
+ },
+ {
+  "label": "13b 볼륨 6번 빠르게 -> 보낸 수 < 6, 마지막 값 85",
+  "eval": "(((n => n >= 1 && n < 6)(fakeHost.got.filter(m => m.type === \"volume\").length - v0) && fakeHost.got.filter(m => m.type === \"volume\").at(-1).value === 85 && volV.textContent === \"85\") ? 'PASS ' : 'FAIL ') + JSON.stringify(({ sent: fakeHost.got.filter(m => m.type === \"volume\").map(m => m.value), shown: volV.textContent }))"
+ },
+ {
+  "key": "Escape",
+  "gap": 400
+ },
+ {
+  "eval": "fakeHost.send({ type: \"init\", version: 1, settings: { theme: \"dark\", idle: false, web: [] }, inputMode: \"gamepadApi\" }); \"sent\""
+ },
+ {
+  "wait": 300
+ },
+ {
+  "key": "/",
+  "gap": 500
+ },
+ {
+  "type": "zzq"
+ },
+ {
+  "wait": 300
+ },
+ {
+  "label": "9 결과 0개 -> 포커스는 화면 키보드",
+  "eval": "((resList.children.length === 0 && F() === \"keys\") ? 'PASS ' : 'FAIL ') + JSON.stringify(({ n: resList.children.length, focus: F(), resH: resH.textContent }))"
+ },
+ {
+  "key": "Enter",
+  "gap": 300
+ },
+ {
+  "label": "9b 결과 0개에서 Enter -> 아무 일 없음",
+  "eval": "((L() === \"ovSearch\") ? 'PASS ' : 'FAIL ') + JSON.stringify(({ layers: L(), focus: F(), got: G().slice(-6), toast: toast.classList.contains(\"on\") ? toast.textContent : \"\" }))"
+ },
+ {
+  "key": "Escape",
+  "gap": 400
+ },
+ {
+  "key": "m",
+  "gap": 400
+ },
+ {
+  "key": "ArrowDown",
+  "n": 5,
+  "gap": 200
+ },
+ {
+  "eval": "window.p0 = fakeHost.got.filter(m => m.type === \"power\").length; document.querySelector(\"#ovMenu .focus\")?.dataset.p"
+ }
+]

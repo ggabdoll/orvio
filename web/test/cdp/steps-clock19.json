@@ -1,0 +1,13 @@
+[
+ {
+  "label": "18:59:57",
+  "eval": "window.T = () => JSON.stringify({ theme: tv.dataset.theme, clock: document.querySelector(\".bar .clock\").textContent, cat: document.querySelector(\".cl.on\")?.textContent, dT: dT.textContent, cnt: cnt.textContent, dR: dR.textContent, layers: [...document.querySelectorAll(\".ov.open\")].map(e => e.id), focus: document.querySelector(\".tv .focus\")?.dataset.g || null }); (tv.dataset.theme === 'light' ? 'PASS ' : 'FAIL ') + T()"
+ },
+ {
+  "wait": 3600
+ },
+ {
+  "label": "19:00 정각 -> 다크",
+  "eval": "(tv.dataset.theme === 'dark' && document.querySelector('.bar .clock').textContent === '19:00' && qmTime.textContent === '19:00' ? 'PASS ' : 'FAIL ') + T()"
+ }
+]

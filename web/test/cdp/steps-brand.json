@@ -1,0 +1,90 @@
+[
+ {
+  "label": "준비",
+  "eval": "window.BS = () => (() => { const b = document.getElementById('brandW'), s = b.querySelector('svg'), g = document.getElementById('guide'), cs = getComputedStyle(b), r = { off: b.classList.contains('off'), vis: cs.visibility, disp: cs.display, left: b.offsetLeft, cy: b.offsetTop + b.offsetHeight / 2, gcy: g.offsetTop + g.offsetHeight / 2, right: b.offsetLeft + b.offsetWidth, sw: s.getBoundingClientRect().width / (document.getElementById('tvWrap').getBoundingClientRect().width / 1920), sh: s.getBoundingClientRect().height / (document.getElementById('tvWrap').getBoundingClientRect().width / 1920), gl: g.offsetLeft, color: cs.color, muted: getComputedStyle(tv).getPropertyValue('--muted').trim() }; return r; })(); window.P = l => fakeHost.send({ type: 'pad', pads: [{ index: 0, buttons: Array.from({ length: 17 }, (_, i) => l.includes(i)), axes: [0, 0, 0, 0] }] }); window.HEX = h => { const n = parseInt(h.slice(1), 16); return `rgb(${n >> 16}, ${n >> 8 & 255}, ${n & 255})`; }; 'ok'"
+ },
+ {
+  "label": "0 패드 모드: 왼쪽 아래 글자 16px, x 840, 안내 줄과 같은 높이, 흐린 회색",
+  "eval": "(() => { const s = BS(); return ((!s.off && s.vis === 'visible' && s.left === 840 && s.cy === s.gcy && Math.abs(s.sw - 117) < .6 && Math.abs(s.sh - 16) < .6 && s.color === HEX(s.muted) && s.right + 24 <= s.gl) ? 'PASS ' : 'FAIL ') + JSON.stringify(s); })()"
+ },
+ {
+  "key": "ArrowDown",
+  "gap": 400
+ },
+ {
+  "label": "1 키보드 모드: 안내 줄이 닿으면 숨김",
+  "eval": "(() => { const s = BS(); return ((s.gl < s.right + 24 ? s.off && s.vis === 'hidden' : !s.off) ? 'PASS ' : 'FAIL ') + JSON.stringify(s); })()"
+ },
+ {
+  "eval": "P([13]); 'down'"
+ },
+ {
+  "wait": 120
+ },
+ {
+  "eval": "P([]); 'up'"
+ },
+ {
+  "wait": 400
+ },
+ {
+  "label": "2 패드로 돌아오면 다시 보임('B 처음으로'가 붙은 가장 긴 패드 안내에서도)",
+  "eval": "(() => { const s = BS(); return ((!s.off && s.vis === 'visible' && s.gl === 987 && s.gl - s.right >= 24) ? 'PASS ' : 'FAIL ') + JSON.stringify(s); })()"
+ },
+ {
+  "shot": "brand-home-clip",
+  "clip": [
+   860,
+   950,
+   1060,
+   110
+  ],
+  "scale": 1
+ },
+ {
+  "shot": "brand-home",
+  "scale": 0.5
+ },
+ {
+  "eval": "P([9]); 'menu'"
+ },
+ {
+  "wait": 120
+ },
+ {
+  "eval": "P([]); 'up'"
+ },
+ {
+  "wait": 700
+ },
+ {
+  "label": "3 빠른 메뉴: 머리에 마크 34px, 글자색 그대로",
+  "eval": "(() => { const w = document.getElementById('whoMk'), s = w.querySelector('svg'), k = document.getElementById('tvWrap').getBoundingClientRect().width / 1920, r = s.getBoundingClientRect(), o = [...document.querySelectorAll('.ov.open')].map(e => e.id).join(), c = getComputedStyle(s).color, ink = getComputedStyle(tv).getPropertyValue('--ink').trim(); return ((o === 'ovMenu' && Math.abs(r.height / k - 34) < .6 && r.width / k > 40 && r.width / k < 43 && c === HEX(ink) && document.getElementById('qmUser').textContent === '빠른 메뉴') ? 'PASS ' : 'FAIL ') + JSON.stringify({ o, w: r.width / k, h: r.height / k, c }); })()"
+ },
+ {
+  "shot": "brand-menu-clip",
+  "clip": [
+   1220,
+   0,
+   700,
+   200
+  ],
+  "scale": 1
+ },
+ {
+  "eval": "P([1]); 'B'"
+ },
+ {
+  "wait": 120
+ },
+ {
+  "eval": "P([]); 'up'"
+ },
+ {
+  "wait": 500
+ },
+ {
+  "label": "4 메뉴 닫힘: 로고 그대로",
+  "eval": "(() => { const s = BS(); return ((!s.off && !document.querySelector('.ov.open')) ? 'PASS ' : 'FAIL ') + JSON.stringify(s.off); })()"
+ }
+]

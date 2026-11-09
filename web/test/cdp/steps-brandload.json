@@ -1,0 +1,9 @@
+[
+ {
+  "wait": 500
+ },
+ {
+  "label": "불러오는 중(SCR-09): 왼쪽 아래 글자 없음, 큰 마크만",
+  "eval": "(() => { const c = getComputedStyle(document.getElementById('brandW')).display, m = document.querySelector('#loadNote .mk svg').getBoundingClientRect().width > 0; return ((c === 'none' && m) ? 'PASS ' : 'FAIL ') + c + ' ' + m; })()"
+ }
+]

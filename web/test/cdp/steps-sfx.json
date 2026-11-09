@@ -1,0 +1,44 @@
+[
+ {
+  "label": "0 확장으로 보낸 효과음 메시지를 센다",
+  "eval": "(() => { Object.defineProperty(window, 'SFX', { get: () => fakeHost.got.filter(m => m.type === 'sfx' && m.name === 'navigation').length }); return 'PASS ' + dT.textContent; })()"
+ },
+ {
+  "key": "ArrowDown",
+  "gap": 60
+ },
+ {
+  "label": "1 한 칸: 이동 소리 1번, 오른쪽 글자 전환과 CD 표지 회전이 도는 중",
+  "eval": "(() => { const f = document.querySelector('.spoke.c .face').getAnimations().length; return (SFX === 1 && dT.getAnimations().length === 1 && f === 1 ? 'PASS ' : 'FAIL ') + SFX + ' ' + dT.getAnimations().length + ' ' + f + ' ' + dT.textContent; })()"
+ },
+ {
+  "wait": 400
+ },
+ {
+  "label": "2 끝나면 글자는 제자리",
+  "eval": "(dT.getAnimations().length === 0 && getComputedStyle(dT).opacity === '1' ? 'PASS' : 'FAIL')"
+ },
+ {
+  "key": "ArrowDown",
+  "gap": 100
+ },
+ {
+  "key": "ArrowDown",
+  "gap": 100
+ },
+ {
+  "label": "3 빠르게 넘기면 소리는 나고 글자 전환·CD 회전은 건너뜀",
+  "eval": "(() => { const f = document.querySelector('.spoke.c .face').getAnimations().length; return (SFX === 3 && dT.getAnimations().length === 0 && f === 0 ? 'PASS ' : 'FAIL ') + SFX + ' ' + dT.getAnimations().length + ' ' + f; })()"
+ },
+ {
+  "wait": 400
+ },
+ {
+  "key": "ArrowUp",
+  "gap": 60
+ },
+ {
+  "label": "4 위로도 소리 1번 더",
+  "eval": "(SFX === 4 ? 'PASS ' : 'FAIL ') + SFX + ' ' + dT.textContent"
+ }
+]

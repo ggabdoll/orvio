@@ -1,0 +1,66 @@
+[
+ {
+  "label": "0 빈 라이브러리(SCR-10)",
+  "eval": "window.S = () => { const t = document.getElementById(\"tv\"); return { layers: [...document.querySelectorAll(\".ov.open\")].map(e => e.id), focus: document.querySelector(\".tv .focus\")?.dataset.g || null, cat: document.querySelector(\".cl.on\")?.textContent, dT: dT.textContent, cnt: cnt.textContent, dR: dR.textContent, theme: t.dataset.theme, paused: t.classList.contains(\"paused\"), guide: guide.innerText.replace(/\\s+/g, \" \"), toast: toast.classList.contains(\"on\") ? toast.textContent : \"\", got: fakeHost.got.map(m => m.type + (m.id ? \":\" + m.id : m.key ? \":\" + m.key + \"=\" + m.value : m.action ? \":\" + m.action : m.query ? \":q=\" + m.query : m.value != null ? \":\" + m.value : \"\")) }; }; window.C = (cond, s = S()) => (cond(s) ? \"PASS \" : \"FAIL \") + JSON.stringify({ ...s, got: s.got.slice(-5) }); window.R = () => [...resList.querySelectorAll(\".ri .rt b\")].map(b => b.textContent).join(\"|\"); C(s => s.dT === \"아직 게임이 없어요\" && dM.textContent.startsWith(\"Playnite에서 Steam·Epic\") && s.focus === \"ring\" && getComputedStyle(acts).visibility === \"hidden\" && s.cnt === \"\" && !document.querySelector(\"#items .spoke\"))"
+ },
+ {
+  "shot": "empty-library"
+ },
+ {
+  "key": "ArrowDown",
+  "gap": 500
+ },
+ {
+  "label": "1 ↓ 컨트롤러로도 빈 분류",
+  "eval": "C(s => s.cat === \"컨트롤러로\" && s.dT === \"아직 게임이 없어요\" && s.focus === \"ring\")"
+ },
+ {
+  "key": "ArrowDown",
+  "n": 3,
+  "gap": 500
+ },
+ {
+  "label": "2 ↓x3 웹 -> 항목 있음",
+  "eval": "C(s => s.cat === \"웹\" && s.dT === \"유튜브\" && s.cnt === \"1 / 7\" && getComputedStyle(acts).visibility === \"visible\" && s.focus === \"ring\")"
+ },
+ {
+  "key": "ArrowRight"
+ },
+ {
+  "label": "3 → 원판",
+  "eval": "C(s => s.focus === \"dial\")"
+ },
+ {
+  "key": "Enter",
+  "gap": 600
+ },
+ {
+  "label": "4 Enter -> 웹 여는 중(SCR-05), openWeb",
+  "eval": "C(s => s.layers.join() === \"ovWeb\" && webT.textContent === \"유튜브\" && s.got.includes(\"openWeb:youtube\") && s.guide.includes(\"홈으로 돌아가기\") && ovWeb.innerText.includes(\"홈으로 돌아가기\"))"
+ },
+ {
+  "shot": "empty-web"
+ },
+ {
+  "key": "Escape",
+  "gap": 500
+ },
+ {
+  "key": "q",
+  "gap": 600
+ },
+ {
+  "label": "5 원판에서 Q -> 빈 분류면 포커스는 분류 링",
+  "eval": "C(s => s.cat === \"같이 하기\" && s.focus === \"ring\" && s.dT === \"아직 게임이 없어요\")"
+ },
+ {
+  "key": "Enter"
+ },
+ {
+  "key": "Escape"
+ },
+ {
+  "label": "6 빈 분류에서 A·B 는 아무 일 없음",
+  "eval": "C(s => s.focus === \"ring\" && !s.layers.length)"
+ }
+]

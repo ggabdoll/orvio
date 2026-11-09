@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net462</TargetFramework>
+    <LangVersion>7.3</LangVersion>
+    <AssemblyName>Orvio</AssemblyName>
+    <RootNamespace>Orvio</RootNamespace>
+    <Version>0.1.0</Version>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <!-- NuGet 의존 DLL(WebView2)을 출력 폴더로 복사 -->
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+    <!-- Playnite.SDK.dll 은 Playnite 가 이미 가지고 있으므로 내보내지 않음 -->
+    <PackageReference Include="PlayniteSDK" Version="6.16.0">
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4314.35" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="System.Xaml" />
+    <!-- WebView2.DefaultBackgroundColor 가 System.Drawing.Color -->
+    <Reference Include="System.Drawing" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="extension.yaml" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../../brand/png/orvio-icon-256.png" Link="icon.png" CopyToOutputDirectory="PreserveNewest" />
+    <!-- 바탕화면 바로가기 아이콘(가이드 5-3) -->
+    <None Include="../../brand/png/orvio-icon.ico" Link="orvio-icon.ico" CopyToOutputDirectory="PreserveNewest" />
+    <!-- 화면 파일: web/ 전부, 시험 모드(web/test) 는 뺌 -->
+    <None Include="../../web/**/*" Exclude="../../web/test/**" Link="web/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,78 @@
+[
+ {
+  "label": "0 home (?fail=1)",
+  "eval": "window.S = () => { const t = document.getElementById(\"tv\"); return { layers: [...document.querySelectorAll(\".ov.open\")].map(e => e.id), focus: document.querySelector(\".tv .focus\")?.dataset.g || null, cat: document.querySelector(\".cl.on\")?.textContent, dT: dT.textContent, cnt: cnt.textContent, dR: dR.textContent, theme: t.dataset.theme, paused: t.classList.contains(\"paused\"), guide: guide.innerText.replace(/\\s+/g, \" \"), toast: toast.classList.contains(\"on\") ? toast.textContent : \"\", got: fakeHost.got.map(m => m.type + (m.id ? \":\" + m.id : m.key ? \":\" + m.key + \"=\" + m.value : m.action ? \":\" + m.action : m.query ? \":q=\" + m.query : m.value != null ? \":\" + m.value : \"\")) }; }; window.C = (cond, s = S()) => (cond(s) ? \"PASS \" : \"FAIL \") + JSON.stringify({ ...s, got: s.got.slice(-5) }); window.R = () => [...resList.querySelectorAll(\".ri .rt b\")].map(b => b.textContent).join(\"|\"); C(s => s.dT === \"엘든 링\")"
+ },
+ {
+  "key": "Enter",
+  "gap": 300
+ },
+ {
+  "label": "1 Enter -> 실행 중",
+  "eval": "C(s => s.layers.join() === \"ovLaunch\" && launchMsg.textContent === \"Steam에서 실행 중…\")"
+ },
+ {
+  "wait": 2300
+ },
+ {
+  "label": "2 timeout -> SCR-11",
+  "eval": "C(s => launchMsg.textContent === \"게임이 시작되지 않았어요\" && launchP.textContent === \"Steam 창을 열어 로그인이나 업데이트가 남았는지 확인해 주세요.\" && launchActs.innerText.replace(/\\s+/g, \" \").includes(\"다시 시도\") && getComputedStyle(launchSpin).display === \"none\" && document.querySelector(\"#ovLaunch .focus\")?.dataset.act === \"retry\" && s.guide.includes(\"홈으로 돌아가기\"))"
+ },
+ {
+  "shot": "fail-scr11"
+ },
+ {
+  "key": "Enter",
+  "gap": 300
+ },
+ {
+  "label": "3 A 다시 시도 -> 다시 실행 중, launch 두 번째",
+  "eval": "C(s => launchMsg.textContent === \"Steam에서 실행 중…\" && s.got.filter(g => g === \"launch:elden\").length === 2)"
+ },
+ {
+  "wait": 2300
+ },
+ {
+  "eval": "fakeHost.send({ type: \"gameState\", id: \"elden\", state: \"launching\" }); \"sent launching\""
+ },
+ {
+  "wait": 200
+ },
+ {
+  "key": "Enter",
+  "gap": 400
+ },
+ {
+  "label": "4 아직 launching 이면 다시 시도 안 함 -> 알림",
+  "eval": "C(s => s.toast === \"아직 켜는 중이에요\" && s.got.filter(g => g === \"launch:elden\").length === 2)"
+ },
+ {
+  "eval": "fakeHost.send({ type: \"gameState\", id: \"elden\", state: \"failed\", reason: \"timeout\" }); \"sent failed\""
+ },
+ {
+  "wait": 200
+ },
+ {
+  "key": "ArrowRight"
+ },
+ {
+  "key": "Enter",
+  "gap": 400
+ },
+ {
+  "label": "5 홈으로 돌아가기 -> 홈",
+  "eval": "C(s => !s.layers.length && s.focus === \"dial\")"
+ },
+ {
+  "key": "Enter",
+  "gap": 2600
+ },
+ {
+  "key": "Escape",
+  "gap": 400
+ },
+ {
+  "label": "6 실패 화면에서 B -> 홈",
+  "eval": "C(s => !s.layers.length && s.focus === \"dial\")"
+ }
+]

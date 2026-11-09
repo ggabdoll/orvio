@@ -1,0 +1,11 @@
+[
+ {"label":"fit 1920x1250: stage 1920x1080, centered","eval":"(r => (r.width === 1920 && r.height === 1080 && Math.round(r.y) === 85 ? 'PASS ' : 'FAIL ') + JSON.stringify([r.x, r.y, r.width, r.height]))(tvWrap.getBoundingClientRect())"},
+ {"label":"mouse click on neighbour CD rotates it to 3 o'clock","eval":"'ready'"},
+ {"click":[344,849]},{"wait":600},
+ {"label":"click result","eval":"((dT.textContent === '몬스터 헌터 와일즈' && document.querySelector('.ov.open')?.id === 'ovLaunch') ? 'PASS ' : 'FAIL ') + dT.textContent + ' ' + (document.querySelector('.ov.open')?.id || '-')"},
+ {"key":"Escape","gap":400},
+ {"move":[1772,82]},{"wait":400},
+ {"label":"tooltip on menu icon","eval":"(tip.classList.contains('on') && tip.textContent === '빠른 메뉴 · 컨트롤러 메뉴 버튼 · 키보드 M' ? 'PASS ' : 'FAIL ') + tip.textContent"},
+ {"click":[1772,82]},{"wait":500},
+ {"label":"icon opens menu","eval":"(document.querySelector('.ov.open')?.id === 'ovMenu' ? 'PASS ' : 'FAIL ') + (document.querySelector('.ov.open')?.id || '-')"}
+]

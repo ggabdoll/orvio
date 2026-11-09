@@ -1,0 +1,96 @@
+[
+ {
+  "label": "0 (?xinput=1)",
+  "eval": "window.S = () => { const t = document.getElementById(\"tv\"); return { layers: [...document.querySelectorAll(\".ov.open\")].map(e => e.id), focus: document.querySelector(\".tv .focus\")?.dataset.g || null, cat: document.querySelector(\".cl.on\")?.textContent, dT: dT.textContent, cnt: cnt.textContent, dR: dR.textContent, theme: t.dataset.theme, paused: t.classList.contains(\"paused\"), guide: guide.innerText.replace(/\\s+/g, \" \"), toast: toast.classList.contains(\"on\") ? toast.textContent : \"\", got: fakeHost.got.map(m => m.type + (m.id ? \":\" + m.id : m.key ? \":\" + m.key + \"=\" + m.value : m.action ? \":\" + m.action : m.query ? \":q=\" + m.query : m.value != null ? \":\" + m.value : \"\")) }; }; window.C = (cond, s = S()) => (cond(s) ? \"PASS \" : \"FAIL \") + JSON.stringify({ ...s, got: s.got.slice(-5) }); window.R = () => [...resList.querySelectorAll(\".ri .rt b\")].map(b => b.textContent).join(\"|\"); window.P = (b, ax = [0, 0, 0, 0]) => fakeHost.send({ type: \"pad\", pads: [{ index: 0, buttons: Array.from({ length: 17 }, (_, i) => b.includes(i)), axes: ax }] }); C(s => s.dT === \"엘든 링\" && fakeHost.got.length >= 1)"
+ },
+ {
+  "eval": "P([13]); \"down\""
+ },
+ {
+  "wait": 120
+ },
+ {
+  "eval": "P([]); \"up\""
+ },
+ {
+  "wait": 300
+ },
+ {
+  "label": "1 pad 메시지 십자키 ↓ -> 원판이 돎 (Gamepad API 대신)",
+  "eval": "C(s => s.dT === \"몬스터 헌터 와일즈\" && s.cnt === \"2 / 14\" && s.guide.startsWith(\"A \"))"
+ },
+ {
+  "eval": "P([], [0, 0.9, 0, 0]); \"stick\""
+ },
+ {
+  "wait": 120
+ },
+ {
+  "eval": "P([]); \"up\""
+ },
+ {
+  "wait": 300
+ },
+ {
+  "label": "2 왼쪽 스틱 아래 -> 한 칸",
+  "eval": "C(s => s.dT === \"리그 오브 레전드\")"
+ },
+ {
+  "eval": "P([3]); P([]); \"tap\""
+ },
+ {
+  "wait": 400
+ },
+ {
+  "label": "3 같은 틈에 눌렀다 뗀 Y 도 읽힘 -> 검색",
+  "eval": "C(s => s.layers.join() === \"ovSearch\")"
+ },
+ {
+  "eval": "P([1]); \"B\""
+ },
+ {
+  "wait": 120
+ },
+ {
+  "eval": "P([]); \"up\""
+ },
+ {
+  "wait": 300
+ },
+ {
+  "label": "4 B -> 닫힘",
+  "eval": "C(s => !s.layers.length)"
+ },
+ {
+  "eval": "P([9]); fakeHost.send({ type: \"resume\", reason: \"menuHold\" }); \"menu held + resume\""
+ },
+ {
+  "wait": 300
+ },
+ {
+  "label": "5 Menu 를 누른 채 돌아와도 빠른 메뉴가 열리지 않음",
+  "eval": "C(s => !s.layers.length)"
+ },
+ {
+  "eval": "P([]); \"release\""
+ },
+ {
+  "wait": 700
+ },
+ {
+  "eval": "P([9]); \"press\""
+ },
+ {
+  "wait": 120
+ },
+ {
+  "eval": "P([]); \"up\""
+ },
+ {
+  "wait": 300
+ },
+ {
+  "label": "6 떼었다 다시 누르면 빠른 메뉴",
+  "eval": "C(s => s.layers.join() === \"ovMenu\")"
+ }
+]

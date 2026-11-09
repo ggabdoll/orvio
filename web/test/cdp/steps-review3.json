@@ -1,0 +1,115 @@
+[
+ {
+  "label": "0",
+  "eval": "window.V = () => fakeHost.got.filter(m => m.type === \"volume\"); window.W = () => fakeHost.got.filter(m => m.type === \"openWeb\").length; window.LG = s => fakeHost.got.filter(m => m.type === \"log\" && m.msg.startsWith(s)); window.L = () => [...document.querySelectorAll(\".ov.open\")].map(e => e.id).join() || \"-\"; 'PASS ready'"
+ },
+ {
+  "eval": "fakeHost.send({ type: \"gameState\", id: \"elden\", state: \"paused\" }); \"sent\""
+ },
+ {
+  "wait": 300
+ },
+ {
+  "label": "1 state 가 목록 밖(paused) -> 무시, warn 로그, 실행 중 아님",
+  "eval": "((LG(\"gameState 값이 이상해요\").some(m => m.msg.includes(\"paused\")) && dRun.textContent === \"\") ? 'PASS ' : 'FAIL ') + JSON.stringify(({ logs: LG(\"gameState\").map(m => m.msg), run: dRun.textContent }))"
+ },
+ {
+  "key": "e",
+  "n": 4,
+  "gap": 450
+ },
+ {
+  "key": "Enter",
+  "gap": 400
+ },
+ {
+  "label": "2a 웹 열기 -> openWeb 1번",
+  "eval": "((L() === \"ovWeb\" && W() === 1) ? 'PASS ' : 'FAIL ') + JSON.stringify(({ layers: L(), sent: W() }))"
+ },
+ {
+  "key": "Escape",
+  "gap": 300
+ },
+ {
+  "key": "Enter",
+  "gap": 400
+ },
+ {
+  "label": "2b 2초 안에 다시 -> 화면은 열리지만 openWeb 은 안 보냄",
+  "eval": "((L() === \"ovWeb\" && W() === 1) ? 'PASS ' : 'FAIL ') + JSON.stringify(({ layers: L(), sent: W() }))"
+ },
+ {
+  "key": "Escape",
+  "gap": 300
+ },
+ {
+  "wait": 2000
+ },
+ {
+  "key": "Enter",
+  "gap": 400
+ },
+ {
+  "label": "2c 2초 지나면 다시 보냄",
+  "eval": "((W() === 2) ? 'PASS ' : 'FAIL ') + JSON.stringify(({ sent: W() }))"
+ },
+ {
+  "key": "Escape",
+  "gap": 300
+ },
+ {
+  "key": "q",
+  "n": 4,
+  "gap": 450
+ },
+ {
+  "key": "m",
+  "gap": 500
+ },
+ {
+  "key": "ArrowRight",
+  "gap": 0
+ },
+ {
+  "eval": "window.p0 = performance.now(); fakeHost.send({ type: \"pause\" }); \"pause\""
+ },
+ {
+  "wait": 400
+ },
+ {
+  "label": "3 pause 가 오면 기다리던 볼륨을 바로 보냄 (100ms 를 기다리지 않음), 한 번만",
+  "eval": "((V().length === 1 && V()[0].value === 45 && V()[0].at - p0 < 50 && tv.classList.contains(\"paused\")) ? 'PASS ' : 'FAIL ') + JSON.stringify(({ vol: V().map(m => [m.value, Math.round(m.at - p0)]) }))"
+ },
+ {
+  "eval": "fakeHost.send({ type: \"resume\", reason: \"menuHold\" }); \"resume\""
+ },
+ {
+  "wait": 300
+ },
+ {
+  "eval": "fakeHost.send({ type: \"status\", network: { kind: \"wifi\", strength: 3 }, pads: [], kbm: { keyboard: true, mouse: true }, volume: 70 }); \"status\""
+ },
+ {
+  "wait": 300
+ },
+ {
+  "label": "4 resume 뒤 첫 status 볼륨은 바로 받음 (3초 보호를 풀었음)",
+  "eval": "((volV.textContent === \"70\" && L() === \"-\") ? 'PASS ' : 'FAIL ') + JSON.stringify(({ vol: volV.textContent }))"
+ },
+ {
+  "eval": "document.body.insertAdjacentHTML(\"beforeend\", \"<img src=\\\"https://evil.test/x.png\\\">\"); \"img\""
+ },
+ {
+  "wait": 500
+ },
+ {
+  "eval": "document.body.insertAdjacentHTML(\"beforeend\", \"<img src=\\\"https://evil.test/x.png\\\">\"); \"img2\""
+ },
+ {
+  "wait": 500
+ },
+ {
+  "label": "5 CSP 위반 -> error 로그, 같은 위반은 5초 안에 한 번",
+  "eval": "((LG(\"CSP img-src\").length === 1 && LG(\"CSP img-src\")[0].level === \"error\" && LG(\"CSP img-src\")[0].msg.includes(\"evil.test\")) ? 'PASS ' : 'FAIL ') + JSON.stringify(({ csp: LG(\"CSP\").map(m => m.msg) }))"
+ }
+]

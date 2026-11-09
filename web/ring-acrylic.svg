@@ -1,0 +1,20 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 460 460' width='460' height='460'><defs>
+<linearGradient id='o' x1='.16' y1='.02' x2='.84' y2='.98'><stop offset='0' stop-color='#fff' stop-opacity='.95'/><stop offset='.42' stop-color='#fff' stop-opacity='.16'/><stop offset='.72' stop-color='#fff' stop-opacity='.1'/><stop offset='1' stop-color='#fff' stop-opacity='.62'/></linearGradient>
+<linearGradient id='i' x1='.84' y1='.98' x2='.16' y2='.02'><stop offset='0' stop-color='#fff' stop-opacity='.95'/><stop offset='.5' stop-color='#fff' stop-opacity='.12'/><stop offset='1' stop-color='#000' stop-opacity='.34'/></linearGradient>
+<linearGradient id='b' x1='.1' y1='0' x2='.9' y2='1'><stop offset='0' stop-color='#fff' stop-opacity='.2'/><stop offset='.55' stop-color='#fff' stop-opacity='.08'/><stop offset='1' stop-color='#fff' stop-opacity='.12'/></linearGradient>
+<filter id='s' x='-20%' y='-20%' width='140%' height='140%'><feGaussianBlur stdDeviation='2.2'/></filter>
+<filter id='g' x='-20%' y='-20%' width='140%' height='140%'><feGaussianBlur stdDeviation='1.6'/></filter>
+<filter id='w' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='.45' numOctaves='2' seed='7'/><feColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1.5 -.55'/></filter>
+<filter id='k' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='.45' numOctaves='2' seed='23'/><feColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.5 -.55'/></filter></defs>
+<!-- 아크릴 몸통의 옅은 흰빛 -->
+<circle cx='230' cy='230' r='221' fill='none' stroke='url(#b)' stroke-width='18'/>
+<!-- 입자 질감: 흰색·검은색 두 겹 -->
+<rect width='460' height='460' filter='url(#w)' opacity='.16'/><rect width='460' height='460' filter='url(#k)' opacity='.16'/>
+<!-- 빛이 닿는 호: 왼쪽 위, 오른쪽 아래 -->
+<circle cx='230' cy='230' r='221' fill='none' stroke='#fff' stroke-opacity='.4' stroke-width='7.2' stroke-linecap='round' stroke-dasharray='270 1388.6' transform='rotate(190 230 230)' filter='url(#s)'/>
+<circle cx='230' cy='230' r='221' fill='none' stroke='#fff' stroke-opacity='.22' stroke-width='5.4' stroke-linecap='round' stroke-dasharray='138.9 1388.6' transform='rotate(27 230 230)' filter='url(#s)'/>
+<!-- 바깥·안쪽 가장자리의 번짐과 선 -->
+<circle cx='230' cy='230' r='227.8' fill='none' stroke='url(#o)' stroke-width='6' opacity='.35' filter='url(#g)'/>
+<circle cx='230' cy='230' r='214.2' fill='none' stroke='url(#i)' stroke-width='5' opacity='.35' filter='url(#g)'/>
+<circle cx='230' cy='230' r='228.8' fill='none' stroke='url(#o)' stroke-width='2.4'/>
+<circle cx='230' cy='230' r='213.2' fill='none' stroke='url(#i)' stroke-width='2.2'/></svg>

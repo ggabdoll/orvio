@@ -1,0 +1,50 @@
+[
+ {
+  "label": "0 (?idle=1)",
+  "eval": "window.V = () => fakeHost.got.filter(m => m.type === \"volume\"); window.W = () => fakeHost.got.filter(m => m.type === \"openWeb\").length; window.LG = s => fakeHost.got.filter(m => m.type === \"log\" && m.msg.startsWith(s)); window.L = () => [...document.querySelectorAll(\".ov.open\")].map(e => e.id).join() || \"-\"; (dT.textContent === '엘든 링' ? 'PASS ' : 'FAIL ') + dT.textContent"
+ },
+ {
+  "key": "m",
+  "gap": 500
+ },
+ {
+  "key": "ArrowDown",
+  "n": 2,
+  "gap": 200
+ },
+ {
+  "key": "ArrowRight",
+  "gap": 200
+ },
+ {
+  "key": "Escape",
+  "gap": 300
+ },
+ {
+  "wait": 2600
+ },
+ {
+  "label": "1 대기 회전 들어감",
+  "eval": "((tv.classList.contains(\"idle\") && dT.textContent !== \"엘든 링\") ? 'PASS ' : 'FAIL ') + JSON.stringify(({ idle: tv.classList.contains(\"idle\"), dT: dT.textContent }))"
+ },
+ {
+  "eval": "fakeHost.send({ type: \"pause\" }); \"pause\""
+ },
+ {
+  "wait": 700
+ },
+ {
+  "label": "2 pause -> 회전을 멈추고 대기 전 칸(엘든 링)으로",
+  "eval": "((!tv.classList.contains(\"idle\") && dT.textContent === \"엘든 링\" && cnt.textContent === \"1 / 14\" && tv.classList.contains(\"paused\")) ? 'PASS ' : 'FAIL ') + JSON.stringify(({ idle: tv.classList.contains(\"idle\"), dT: dT.textContent, cnt: cnt.textContent }))"
+ },
+ {
+  "eval": "fakeHost.send({ type: \"resume\", reason: \"menuHold\" }); \"resume\""
+ },
+ {
+  "wait": 300
+ },
+ {
+  "label": "3 resume -> 원판 3시 그대로",
+  "eval": "((dT.textContent === \"엘든 링\" && !tv.classList.contains(\"paused\") && document.querySelector(\".tv .focus\")?.dataset.g === \"dial\") ? 'PASS ' : 'FAIL ') + JSON.stringify(({ dT: dT.textContent }))"
+ }
+]
